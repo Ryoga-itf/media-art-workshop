@@ -1,12 +1,15 @@
 [package]
-name = "example_servo-motor"
+name = "physical-computing"
 version = "0.1.0"
 edition = "2021"
-description = "XIAO RP2040, Servo motor example"
-authors = ["Ryoga-exe <mail@ryoga.dev>"]
 
 [[bin]]
-name = "example_servo-motor"
+name = "light"
+test = false
+bench = false
+
+[[bin]]
+name = "yobikomi"
 test = false
 bench = false
 
@@ -17,3 +20,5 @@ embedded-hal = "1.0.0"
 panic-halt = "1.0.0"
 rp2040-boot2 = "0.3.0"
 seeeduino-xiao-rp2040 = "0.6.0"
+smart-leds = "0.3.0"
+ws2812-pio = "0.8.0"
