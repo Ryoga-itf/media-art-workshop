@@ -4,6 +4,11 @@ version = "0.1.0"
 edition = "2021"
 
 [[bin]]
+name = "light"
+test = false
+bench = false
+
+[[bin]]
 name = "yobikomi"
 test = false
 bench = false
