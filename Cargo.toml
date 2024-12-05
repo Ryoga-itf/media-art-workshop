@@ -13,6 +13,11 @@ name = "yobikomi"
 test = false
 bench = false
 
+[[bin]]
+name = "ultrasonic"
+test = false
+bench = false
+
 [dependencies]
 cortex-m = "0.7.7"
 cortex-m-rt = "0.7.3"
