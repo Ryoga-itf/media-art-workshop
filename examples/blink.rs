@@ -1,11 +1,13 @@
 #![no_std]
 #![no_main]
+use cortex_m::delay::Delay;
 use embedded_hal::digital::OutputPin;
 use panic_halt as _;
-use seeeduino_xiao_rp2040::entry;
-use seeeduino_xiao_rp2040::hal;
-use seeeduino_xiao_rp2040::hal::pac;
-use seeeduino_xiao_rp2040::hal::prelude::*;
+use seeeduino_xiao_rp2040::{
+    entry,
+    hal::{self, pac, prelude::*, Sio},
+    Pins, XOSC_CRYSTAL_FREQ,
+};
 
 #[entry]
 fn main() -> ! {
@@ -15,7 +17,7 @@ fn main() -> ! {
     let mut watchdog = hal::Watchdog::new(pac.WATCHDOG);
 
     let clocks = hal::clocks::init_clocks_and_plls(
-        seeeduino_xiao_rp2040::XOSC_CRYSTAL_FREQ,
+        XOSC_CRYSTAL_FREQ,
         pac.XOSC,
         pac.CLOCKS,
         pac.PLL_SYS,
@@ -26,15 +28,15 @@ fn main() -> ! {
     .ok()
     .unwrap();
 
-    let sio = hal::Sio::new(pac.SIO);
-    let pins = seeeduino_xiao_rp2040::Pins::new(
+    let sio = Sio::new(pac.SIO);
+    let pins = Pins::new(
         pac.IO_BANK0,
         pac.PADS_BANK0,
         sio.gpio_bank0,
         &mut pac.RESETS,
     );
 
-    let mut delay = cortex_m::delay::Delay::new(core.SYST, clocks.system_clock.freq().to_Hz());
+    let mut delay = Delay::new(core.SYST, clocks.system_clock.freq().to_Hz());
     let mut led_blue_pin = pins.led_blue.into_push_pull_output();
     let mut led_green_pin = pins.led_green.into_push_pull_output();
     let mut led_red_pin = pins.led_red.into_push_pull_output();

@@ -1,16 +1,12 @@
 #![no_std]
 #![no_main]
 use panic_halt as _;
-use seeeduino_xiao_rp2040::entry;
-use seeeduino_xiao_rp2040::hal;
-use seeeduino_xiao_rp2040::hal::pac;
-use seeeduino_xiao_rp2040::hal::usb::UsbBus;
-use seeeduino_xiao_rp2040::hal::Timer;
-use usb_device::bus::UsbBusAllocator;
-use usb_device::device::UsbDeviceBuilder;
-use usb_device::device::UsbVidPid;
-use usbd_serial::SerialPort;
-use usbd_serial::USB_CLASS_CDC;
+use seeeduino_xiao_rp2040::{
+    entry,
+    hal::{self, pac, usb::UsbBus, Timer},
+};
+use usb_device::{bus::UsbBusAllocator, device::UsbDeviceBuilder, device::UsbVidPid};
+use usbd_serial::{SerialPort, USB_CLASS_CDC};
 
 #[entry]
 fn main() -> ! {

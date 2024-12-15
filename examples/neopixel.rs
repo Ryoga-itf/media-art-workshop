@@ -1,13 +1,13 @@
 #![no_std]
 #![no_main]
+use cortex_m::delay::Delay;
 use embedded_hal::digital::OutputPin;
-use hal::pio::PIOExt;
-use hal::Timer;
 use panic_halt as _;
-use seeeduino_xiao_rp2040::entry;
-use seeeduino_xiao_rp2040::hal;
-use seeeduino_xiao_rp2040::hal::pac;
-use seeeduino_xiao_rp2040::hal::prelude::*;
+use seeeduino_xiao_rp2040::{
+    entry,
+    hal::{self, pac, pio::PIOExt, prelude::*, Sio, Timer},
+    Pins, XOSC_CRYSTAL_FREQ,
+};
 use smart_leds::{SmartLedsWrite, RGB8};
 use ws2812_pio::Ws2812;
 const RED: RGB8 = RGB8::new(255, 0, 0);
@@ -23,7 +23,7 @@ fn main() -> ! {
     let mut watchdog = hal::Watchdog::new(pac.WATCHDOG);
 
     let clocks = hal::clocks::init_clocks_and_plls(
-        seeeduino_xiao_rp2040::XOSC_CRYSTAL_FREQ,
+        XOSC_CRYSTAL_FREQ,
         pac.XOSC,
         pac.CLOCKS,
         pac.PLL_SYS,
@@ -34,15 +34,15 @@ fn main() -> ! {
     .ok()
     .unwrap();
 
-    let sio = hal::Sio::new(pac.SIO);
-    let pins = seeeduino_xiao_rp2040::Pins::new(
+    let sio = Sio::new(pac.SIO);
+    let pins = Pins::new(
         pac.IO_BANK0,
         pac.PADS_BANK0,
         sio.gpio_bank0,
         &mut pac.RESETS,
     );
 
-    let mut delay = cortex_m::delay::Delay::new(core.SYST, clocks.system_clock.freq().to_Hz());
+    let mut delay = Delay::new(core.SYST, clocks.system_clock.freq().to_Hz());
     let timer = Timer::new(pac.TIMER, &mut pac.RESETS, &clocks);
 
     let (mut pio, sm0, _, _, _) = pac.PIO0.split(&mut pac.RESETS);
