@@ -1,12 +1,9 @@
 #![no_std]
 #![no_main]
-use cortex_m::asm::delay;
-use embedded_hal::digital::OutputPin;
 use panic_halt as _;
 use seeeduino_xiao_rp2040::entry;
 use seeeduino_xiao_rp2040::hal;
 use seeeduino_xiao_rp2040::hal::pac;
-use seeeduino_xiao_rp2040::hal::prelude::*;
 use seeeduino_xiao_rp2040::hal::usb::UsbBus;
 use seeeduino_xiao_rp2040::hal::Timer;
 use usb_device::bus::UsbBusAllocator;
@@ -18,7 +15,6 @@ use usbd_serial::USB_CLASS_CDC;
 #[entry]
 fn main() -> ! {
     let mut pac = pac::Peripherals::take().unwrap();
-    let core = pac::CorePeripherals::take().unwrap();
 
     let mut watchdog = hal::Watchdog::new(pac.WATCHDOG);
 
@@ -35,14 +31,6 @@ fn main() -> ! {
     .unwrap();
 
     let timer = Timer::new(pac.TIMER, &mut pac.RESETS, &clocks);
-
-    let sio = hal::Sio::new(pac.SIO);
-    let pins = seeeduino_xiao_rp2040::Pins::new(
-        pac.IO_BANK0,
-        pac.PADS_BANK0,
-        sio.gpio_bank0,
-        &mut pac.RESETS,
-    );
 
     let usb_bus = UsbBusAllocator::new(UsbBus::new(
         pac.USBCTRL_REGS,
