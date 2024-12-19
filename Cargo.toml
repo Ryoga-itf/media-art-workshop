@@ -14,7 +14,7 @@ test = false
 bench = false
 
 [[bin]]
-name = "ultrasonic"
+name = "muchu-space"
 test = false
 bench = false
 
