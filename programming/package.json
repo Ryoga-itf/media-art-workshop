@@ -1,0 +1,8 @@
+{
+  "scripts": {
+    "start": "reload -b -d src"
+  },
+  "dependencies": {
+    "reload": "^3.3.0"
+  }
+}
